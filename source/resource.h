@@ -2,6 +2,37 @@
 #include <unordered_map>
 #include <typeindex>
 
+// Create resource manager
+ResourceManager resourceManager;
+
+// **** EXAMPLE USAGE OF RESOURCE MANAGER ****
+// // Load resources
+// auto texture = resourceManager.Load<Texture>("brick");
+// auto mesh = resourceManager.Load<Mesh>("cube");
+// auto vertexShader = resourceManager.Load<Shader>("basic", vk::ShaderStageFlagBits::eVertex);
+// auto fragmentShader = resourceManager.Load<Shader>("basic", vk::ShaderStageFlagBits::eFragment);
+// 
+// // Use resources
+// if (texture && mesh && vertexShader && fragmentShader) {
+// 	// Create material using shaders
+// 	Material material(vertexShader, fragmentShader);
+// 
+// 	// Set texture in material
+// 	material.SetTexture("diffuse", texture);
+// 
+// 	// Create entity with mesh and material
+// 	Entity entity("MyEntity");
+// 	auto meshComponent = entity.AddComponent<MeshComponent>(mesh.Get(), &material);
+// }
+// 
+// // Resources will be automatically released when handles go out of scope
+// // or you can explicitly release them
+// resourceManager.Release(texture.GetId());
+//
+// TODO: implement async resource manager as shown in 04_resource_management
+// TODO: implement resource streaming for hot reloading 04_resource_management
+
+
 
 class ResourceManager;
 // Resource handle
@@ -71,7 +102,7 @@ public:
 
 protected:
 	virtual bool doLoad() = 0;
-	virtual bool doUnload() = 0;
+	virtual void doUnload() = 0;
 };
 
 // Resource manager
