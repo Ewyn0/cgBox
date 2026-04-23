@@ -7,6 +7,7 @@ include(FetchContent)
 set(NAME cgBox)
 project(${NAME})
 
+
 if (NOT IS_DIRECTORY $ENV{VULKAN_SDK})
     message(WARNING "Vulkan SDK not detected, if installed please set VULKAN_SDK env var or manually provide libraries")
 else()
@@ -42,7 +43,7 @@ set(KTX_SOURCES
     ${KTX_DIR}/lib/memstream.c
     ${KTX_DIR}/lib/filestream.c
     ${KTX_DIR}/lib/vkloader.c)
-add_library(ktx STATIC ${KTX_SOURCES} "component.h" "event.h" "resource.h" "resource_custom.h" "pipeline.h")
+add_library(ktx STATIC ${KTX_SOURCES} "pipeline.h")
 
 if (NOT WIN32)
     target_link_libraries(ktx PUBLIC $ENV{VULKAN_SDK}/lib/libvulkan.so)
@@ -62,7 +63,7 @@ if(MSVC)
 endif()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
 
-add_executable(${NAME} main.cpp assets/shader.slang "component.h" "event.h" "resource.h" "resource_custom.h" "pipeline.h")
+add_executable(${NAME} main.cpp assets/shaders/core/shader.slang "pipeline.h")
 target_compile_definitions(${NAME} PRIVATE VK_NO_PROTOTYPES)
 if (WIN32)
     target_compile_definitions(${NAME} PRIVATE _CRT_SECURE_NO_WARNINGS)
